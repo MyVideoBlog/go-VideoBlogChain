@@ -31,7 +31,8 @@ make all
 
 
 
-## Running `geth`
+
+## genesis.json
 
 ```json
 {
@@ -64,10 +65,27 @@ make all
     }
 }
 ```
+## Running `geth`
 
-/home/root1/geth/go-ethereum/build/bin/geth --datadir /home/root1/geth/datadir init /home/root1/geth/genesis.json
+With the genesis state defined in the above JSON file, you'll need to initialize every geth node with it prior to starting it up to ensure all blockchain parameters are correctly set:
 
-nohup /home/root1/geth/go-ethereum/build/bin/geth --networkid 538969378 --allow-insecure-unlock --rpcvhosts=* --syncmode full  --datadir /home/root1/geth/datadir --cache 1024 --maxpeers 1000  --port 30303 --rpcapi net,eth,web3,personal --rpc --rpcaddr 127.0.0.1  --rpcport 30304  &
+$ geth init path/to/genesis.json
+
+$ geth --networkid 538969378 --rpcvhosts=* --syncmode full  --datadir path/to/datadir --cache 1024 --maxpeers 1000  --port 30303 --rpcapi net,eth,web3,personal --rpc --rpcaddr 127.0.0.1  --rpcport 30304
+
+if you need to personal.unlockAccount or eth.sendTransaction etc, add --allow-insecure-unlock
+
+$ geth --allow-insecure-unlock
+
+## add peers
+
+$ geth attach path/to/datadir/geth.ipc
+
+> admin.addPeer("enode://815fbad4bb9e60bff95d36c6419987c85c8e15e46f78d7b67da49dbeb9b2824bf458117eeff03164b57684dcd78557b582b0bb023bffeafbde6256ec3567e6dc@47.57.164.0:30303")
+> admin.addPeer("enode://c3799e037f1c9f877d0c5721a1e25512943199042debd51a1629ec74ab267f018326a0f189a9b6359496a46f0a0a3d527bde4ce28220bdd3a3cba48873c02f94@47.112.235.61:30303")
+> admin.addPeer("enode://5093d988072fd01a20247cf11b6bbecda5a7a2430dbd2019ee8335422da71c18d9d0538146bcc05a2bf24458a0f63459fc9e0e41499d80951936c370d71f38d5@47.112.253.125:30303")
+
+
 
 
 
