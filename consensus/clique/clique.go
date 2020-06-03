@@ -731,6 +731,7 @@ func encodeSigHeader(w io.Writer, header *types.Header) {
 		header.Extra[:len(header.Extra)-crypto.SignatureLength], // Yes, this will panic if extra is too short
 		header.MixDigest,
 		header.Nonce,
+		header.Signature,//sjz
 	})
 	if err != nil {
 		panic("can't encode: " + err.Error())

@@ -278,6 +278,7 @@ func (g *Genesis) ToBlock(db ethdb.Database) *types.Block {
 		MixDigest:  g.Mixhash,
 		Coinbase:   g.Coinbase,
 		Root:       root,
+		Signature:  g.Signature,	//sjz
 	}
 	if g.GasLimit == 0 {
 		head.GasLimit = params.GenesisGasLimit
