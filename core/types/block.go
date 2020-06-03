@@ -81,6 +81,7 @@ type Header struct {
 	GasUsed     uint64         `json:"gasUsed"          gencodec:"required"`
 	Time        uint64         `json:"timestamp"        gencodec:"required"`
 	Extra       []byte         `json:"extraData"        gencodec:"required"`
+	Signature   []byte         `json:"signature"        gencodec:"required"` //sjz
 	MixDigest   common.Hash    `json:"mixHash"`
 	Nonce       BlockNonce     `json:"nonce"`
 }
@@ -107,7 +108,7 @@ var headerSize = common.StorageSize(reflect.TypeOf(Header{}).Size())
 // Size returns the approximate memory used by all internal contents. It is used
 // to approximate and limit the memory consumption of various caches.
 func (h *Header) Size() common.StorageSize {
-	return headerSize + common.StorageSize(len(h.Extra)+(h.Difficulty.BitLen()+h.Number.BitLen())/8)
+	return headerSize + common.StorageSize(len(h.Extra)+len(h.Signature)+(h.Difficulty.BitLen()+h.Number.BitLen())/8)//sjz
 }
 
 // SanityCheck checks a few basic things -- these checks are way beyond what
@@ -252,6 +253,11 @@ func CopyHeader(h *Header) *Header {
 		cpy.Extra = make([]byte, len(h.Extra))
 		copy(cpy.Extra, h.Extra)
 	}
+	//sjz
+	if len(h.Signature) > 0 {
+		cpy.Signature = make([]byte, len(h.Signature))
+		copy(cpy.Signature, h.Signature)
+	}
 	return &cpy
 }
 
@@ -317,6 +323,7 @@ func (b *Block) TxHash() common.Hash      { return b.header.TxHash }
 func (b *Block) ReceiptHash() common.Hash { return b.header.ReceiptHash }
 func (b *Block) UncleHash() common.Hash   { return b.header.UncleHash }
 func (b *Block) Extra() []byte            { return common.CopyBytes(b.header.Extra) }
+func (b *Block) Signature() []byte            { return common.CopyBytes(b.header.Signature) }//sjz
 
 func (b *Block) Header() *Header { return CopyHeader(b.header) }
 

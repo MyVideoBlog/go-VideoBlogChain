@@ -29,6 +29,7 @@ func (g Genesis) MarshalJSON() ([]byte, error) {
 		Number     math.HexOrDecimal64                         `json:"number"`
 		GasUsed    math.HexOrDecimal64                         `json:"gasUsed"`
 		ParentHash common.Hash                                 `json:"parentHash"`
+		Signature  hexutil.Bytes                               `json:"signature"`//sjz
 	}
 	var enc Genesis
 	enc.Config = g.Config
@@ -48,6 +49,7 @@ func (g Genesis) MarshalJSON() ([]byte, error) {
 	enc.Number = math.HexOrDecimal64(g.Number)
 	enc.GasUsed = math.HexOrDecimal64(g.GasUsed)
 	enc.ParentHash = g.ParentHash
+	enc.Signature = g.Signature	//sjz
 	return json.Marshal(&enc)
 }
 
@@ -65,6 +67,7 @@ func (g *Genesis) UnmarshalJSON(input []byte) error {
 		Number     *math.HexOrDecimal64                        `json:"number"`
 		GasUsed    *math.HexOrDecimal64                        `json:"gasUsed"`
 		ParentHash *common.Hash                                `json:"parentHash"`
+		Signature  *hexutil.Bytes                              `json:"signature"`	//sjz
 	}
 	var dec Genesis
 	if err := json.Unmarshal(input, &dec); err != nil {
@@ -81,6 +84,9 @@ func (g *Genesis) UnmarshalJSON(input []byte) error {
 	}
 	if dec.ExtraData != nil {
 		g.ExtraData = *dec.ExtraData
+	}
+	if dec.Signature != nil {//sjz
+		g.Signature = *dec.Signature
 	}
 	if dec.GasLimit == nil {
 		return errors.New("missing required field 'gasLimit' for Genesis")

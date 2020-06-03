@@ -155,6 +155,7 @@ type CParamsGenesis struct {
 	ParentHash common.Hash           `json:"parentHash"`
 	ExtraData  hexutil.Bytes         `json:"extraData"`
 	GasLimit   math.HexOrDecimal64   `json:"gasLimit"`
+	Signature  hexutil.Bytes         `json:"signature"`//sjz
 }
 
 type CParamsAccount struct {
@@ -374,6 +375,7 @@ func (api *RetestethAPI) SetChainParams(ctx context.Context, chainParams ChainPa
 		Coinbase:   chainParams.Genesis.Author,
 		ParentHash: chainParams.Genesis.ParentHash,
 		Alloc:      accounts,
+		Signature: chainParams.Genesis.Signature,//sjz
 	}
 	chainConfig, genesisHash, err := core.SetupGenesisBlock(ethDb, genesis)
 	if err != nil {

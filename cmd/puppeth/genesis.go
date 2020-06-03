@@ -68,6 +68,7 @@ type alethGenesisSpec struct {
 		ParentHash common.Hash      `json:"parentHash"`
 		ExtraData  hexutil.Bytes    `json:"extraData"`
 		GasLimit   hexutil.Uint64   `json:"gasLimit"`
+		Signature  hexutil.Bytes    `json:"signature"`//sjz
 	} `json:"genesis"`
 
 	Accounts map[common.UnprefixedAddress]*alethGenesisSpecAccount `json:"accounts"`
@@ -153,6 +154,7 @@ func newAlethGenesisSpec(network string, genesis *core.Genesis) (*alethGenesisSp
 	spec.Genesis.Timestamp = (hexutil.Uint64)(genesis.Timestamp)
 	spec.Genesis.ParentHash = genesis.ParentHash
 	spec.Genesis.ExtraData = (hexutil.Bytes)(genesis.ExtraData)
+	spec.Genesis.Signature = (hexutil.Bytes)(genesis.Signature)//sjz
 	spec.Genesis.GasLimit = (hexutil.Uint64)(genesis.GasLimit)
 
 	for address, account := range genesis.Alloc {
@@ -287,6 +289,7 @@ type parityChainSpec struct {
 		ParentHash common.Hash    `json:"parentHash"`
 		ExtraData  hexutil.Bytes  `json:"extraData"`
 		GasLimit   hexutil.Uint64 `json:"gasLimit"`
+		Signature  hexutil.Bytes  `json:"signature"`//sjz
 	} `json:"genesis"`
 
 	Nodes    []string                                             `json:"nodes"`
@@ -431,6 +434,7 @@ func newParityChainSpec(network string, genesis *core.Genesis, bootnodes []strin
 	spec.Genesis.Timestamp = (hexutil.Uint64)(genesis.Timestamp)
 	spec.Genesis.ParentHash = genesis.ParentHash
 	spec.Genesis.ExtraData = (hexutil.Bytes)(genesis.ExtraData)
+	spec.Genesis.Signature = (hexutil.Bytes)(genesis.Signature)//sjz
 	spec.Genesis.GasLimit = (hexutil.Uint64)(genesis.GasLimit)
 
 	spec.Accounts = make(map[common.UnprefixedAddress]*parityChainSpecAccount)
@@ -602,6 +606,8 @@ type pyEthereumGenesisSpec struct {
 	Coinbase   common.Address    `json:"coinbase"`
 	Alloc      core.GenesisAlloc `json:"alloc"`
 	ParentHash common.Hash       `json:"parentHash"`
+	Signature  hexutil.Bytes      `json:"signature"`//sjz
+
 }
 
 // newPyEthereumGenesisSpec converts a go-ethereum genesis block into a Parity specific
@@ -621,6 +627,7 @@ func newPyEthereumGenesisSpec(network string, genesis *core.Genesis) (*pyEthereu
 		Coinbase:   genesis.Coinbase,
 		Alloc:      genesis.Alloc,
 		ParentHash: genesis.ParentHash,
+		Signature:  genesis.Signature,//sjz
 	}
 	return spec, nil
 }
