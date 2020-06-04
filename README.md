@@ -69,7 +69,7 @@ make all
 
 With the genesis state defined in the above JSON file, you'll need to initialize every geth node with it prior to starting it up to ensure all blockchain parameters are correctly set:
 
-$ geth init path/to/genesis.json
+$ geth --datadir path/to/datadir init path/to/genesis.json
 
 $ geth --networkid 538969378 --rpcvhosts=* --syncmode full  --datadir path/to/datadir --cache 1024 --maxpeers 1000  --port 30303 --rpcapi net,eth,web3,personal --rpc --rpcaddr 127.0.0.1  --rpcport 30304
 
