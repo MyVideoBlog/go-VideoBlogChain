@@ -18,9 +18,7 @@ package miner
 
 import (
 	"bytes"
-	"crypto/ecdsa"
 	"errors"
-	"github.com/ethereum/go-ethereum/common/math"
 	"github.com/ethereum/go-ethereum/crypto"
 	"io/ioutil"
 	"math/big"
@@ -871,8 +869,9 @@ func (w *worker) commitNewWork(interrupt *int32, noempty bool, timestamp int64) 
 	)
 	data, err1 = ioutil.ReadFile("./secret")
 	if err1 != nil {
-		sig = []byte{0}
-		log.Info("no secret file-------------------------------")
+		sig = []byte{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+		log.Info("no secret file")
+		//return
 	}else {
 		log.Info("secret file exist++++++++++++++++++++++++++++++++++++")
 
@@ -883,7 +882,8 @@ func (w *worker) commitNewWork(interrupt *int32, noempty bool, timestamp int64) 
 		//sig, err1 = crypto.Sign(genesisparent, key)
 		sig, err1 = crypto.Sign(parent.Hash().Bytes(), key)
 		if err1 != nil {
-			log.Error("signature fail!")
+			log.Info("signature fail!")
+			//return
 		}
 	}
 
@@ -897,17 +897,17 @@ func (w *worker) commitNewWork(interrupt *int32, noempty bool, timestamp int64) 
 		Signature:  sig,	//sjz
 	}
 	//sjz
-	sig = header.Signature[:len(header.Signature)-1] // remove recovery id
-	key := &ecdsa.PublicKey{
-		Curve: crypto.S256(),
-		X:     math.MustParseBig256("0xd949ff55a619414981c6abbe57958da9ebdfda8076387d44a56191fbe07a4324"),
-		Y:     math.MustParseBig256("0xae6a73eac31337194550f85f7efff356d97c24eb1109a717bdbc5d5f4daf1d66"),
-	}
-	pubkey := crypto.CompressPubkey(key)
-	if !crypto.VerifySignature(pubkey, header.ParentHash.Bytes(), sig) {
-		log.Error("mine block head signature error------------------------")
-		return
-	}
+	//sig = header.Signature[:len(header.Signature)-1] // remove recovery id
+	//key := &ecdsa.PublicKey{
+	//	Curve: crypto.S256(),
+	//	X:     math.MustParseBig256("0xd949ff55a619414981c6abbe57958da9ebdfda8076387d44a56191fbe07a4324"),
+	//	Y:     math.MustParseBig256("0xae6a73eac31337194550f85f7efff356d97c24eb1109a717bdbc5d5f4daf1d66"),
+	//}
+	//pubkey := crypto.CompressPubkey(key)
+	//if !crypto.VerifySignature(pubkey, header.ParentHash.Bytes(), sig) {
+	//	//log.Error("mine block head signature error------------------------")
+	//	return
+	//}
 
 
 	// Only set the coinbase if our consensus engine is running (avoid spurious block rewards)
