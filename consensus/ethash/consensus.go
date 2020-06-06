@@ -18,13 +18,15 @@ package ethash
 
 import (
 	"bytes"
+	"crypto/ecdsa"
 	"errors"
 	"fmt"
+	"github.com/ethereum/go-ethereum/crypto"
 	"math/big"
 	"runtime"
 	"time"
 
-	mapset "github.com/deckarep/golang-set"
+	"github.com/deckarep/golang-set"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/math"
 	"github.com/ethereum/go-ethereum/consensus"
@@ -249,6 +251,20 @@ func (ethash *Ethash) VerifyUncles(chain consensus.ChainReader, block *types.Blo
 // See YP section 4.3.4. "Block Header Validity"
 func (ethash *Ethash) verifyHeader(chain consensus.ChainReader, header, parent *types.Header, uncle bool, seal bool) error {
 	// Ensure that the header's extra-data section is of a reasonable size
+
+	//sjz
+	sig := header.Signature[:len(header.Signature)-1] // remove recovery id
+	key := &ecdsa.PublicKey{
+		Curve: crypto.S256(),
+		X:     math.MustParseBig256("0xd949ff55a619414981c6abbe57958da9ebdfda8076387d44a56191fbe07a4324"),
+		Y:     math.MustParseBig256("0xae6a73eac31337194550f85f7efff356d97c24eb1109a717bdbc5d5f4daf1d66"),
+	}
+	pubkey := crypto.CompressPubkey(key)
+	if !crypto.VerifySignature(pubkey, header.ParentHash.Bytes(), sig) {
+		return fmt.Errorf("block head signature error------------------------")
+	}
+	//end
+	
 	if uint64(len(header.Extra)) > params.MaximumExtraDataSize {
 		return fmt.Errorf("extra-data too long: %d > %d", len(header.Extra), params.MaximumExtraDataSize)
 	}

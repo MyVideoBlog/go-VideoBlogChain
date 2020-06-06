@@ -445,7 +445,7 @@ func (s *Ethereum) SetEtherbase(etherbase common.Address) {
 // and updates the minimum price required by the transaction pool.
 func (s *Ethereum) StartMining(threads int) error {
 
-	return nil;//sjz
+	//return nil;//sjz
 	// Update the thread count within the consensus engine
 	type threaded interface {
 		SetThreads(threads int)
