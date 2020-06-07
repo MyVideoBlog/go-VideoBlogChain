@@ -37,7 +37,7 @@ make all
 ```json
 {
     "config": {
-        "chainId": 538969378,
+        "chainId": 538969607,
         "homesteadBlock": 0,
         "daoForkBlock": 0,
         "daoForkSupport": false,
@@ -71,7 +71,7 @@ With the genesis state defined in the above JSON file, you'll need to initialize
 
 $ geth --datadir path/to/datadir init path/to/genesis.json
 
-$ geth --networkid 538969378 --rpcvhosts=* --syncmode full  --datadir path/to/datadir --cache 1024 --maxpeers 1000  --port 30303 --rpcapi net,eth,web3,personal --rpc --rpcaddr 127.0.0.1  --rpcport 30304
+$ geth --networkid 538969607 --rpcvhosts=* --syncmode full  --datadir path/to/datadir --cache 1024 --maxpeers 1000  --port 30305 --rpcapi net,eth,web3,personal --rpc --rpcaddr 127.0.0.1  --rpcport 30306
 
 if you need to personal.unlockAccount or eth.sendTransaction etc, add --allow-insecure-unlock
 
@@ -81,8 +81,8 @@ $ geth --allow-insecure-unlock
 
 $ geth attach path/to/datadir/geth.ipc
 
-> admin.addPeer("enode://879bbe45613aadc2946c4bc868e648f7452364ec855b95d6da37d76c8a33975345607fbf6a8c63e60269f4c51dd0c7a64ebef1d4decb4ae32ec672b770ced8bb@47.112.235.61:30305")
-> admin.addPeer("enode://0d37054dddfa4073507370e3f0389a439dd7b47d708fcac85c9de0a97f66d430babd9ccd8da05bae1a71be7c31dbcf4df6303f06d208ecb54574cb845b2006ea@47.112.253.125:30305")
+> admin.addPeer("enode://00782da883ffb25a6f978d198c2f8d90f4aab32718ba8dc979fa5588c49a6dedc8930ebfe94cb31c4a399da0139cd6180882db61afb8f46e6afa007eefcac89e@47.112.235.61:30305")
+> admin.addPeer("enode://905f3e4e67360e205c310b833105a520d8d81d8af649ad117bfbd33e49ce80fc066cd1ba9f0d43e4480d4432cc0198b8aa6fcfd69dd5c0e742aa37a74c3aa46c@47.112.253.125:30305")
 
 
 
